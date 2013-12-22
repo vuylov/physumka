@@ -121,7 +121,13 @@ class CurPeriod extends CActiveRecord
             //get module
             $module = new Module();
             $module_id     = $module->getCurrentModule();
-
+            
+            echo 'user: '.$user->id.'<br>';
+            echo 'eduplan: '.$eduplan->id.'<br>';
+            echo 'semestr: '.$semestr.'<br>';
+            echo 'module: '.$module_id.'<br>';
+            exit;
+            
             $year = $user->date_admission;
             if(!$year)
                 throw new CHttpException(404, "Ошибка в учебном плане. Не заполнен год поступления. Обратитесь к методисту кафедры");

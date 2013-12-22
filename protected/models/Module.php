@@ -111,7 +111,10 @@ class Module extends CActiveRecord
     public function getCurrentModule()
     {
         $now = (int)date('md');
-        //$query = "SELECT m.id FROM ph_module as m WHERE m.date_start < $now and m.date_end>$now";
+        
+        $query = "SELECT m.id FROM ph_module as m WHERE m.date_start < $now and m.date_end>$now";
+        //echo $query;
+        //exit;
         $connection = Yii::app()->db;
         $command    = $connection->createCommand("SELECT m.id FROM ph_module as m WHERE m.date_start < $now and m.date_end>$now");
         $row        = $command->queryRow();

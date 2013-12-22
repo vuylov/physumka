@@ -180,10 +180,14 @@ class TestController extends Controller
             $model = Test::model()->findByPk($this->castToInt($id));
             //calculate passed attempts
             $user_id = Yii::app()->user->id;
-            $cPeriod = CurPeriod::getCurrentPeriod($user_id);
-            $qTest  = Attempt::model()->countByAttributes(array('test_id'=>$id, 'user_id'=>$user_id, 'cur_period_id'=>$cPeriod->id));
-            //CVarDumper::dump($qTest, 10, true);
-            $model->attempts -= $qTest;
+            //echo $user_id;
+            //$cPeriod = CurPeriod::getCurrentPeriod($user_id);
+           // CVarDumper::dump($cPeriod, 10, true);
+            //$qTest  = Attempt::model()->countByAttributes(array('test_id'=>$id, 'user_id'=>$user_id, 'cur_period_id'=>$cPeriod->id));
+            //exit;
+           // CVarDumper::dump($qTest, 10, true);
+           /*if((int)$qTest > 0)
+                $model->attempts -= $qTest;
             
             if($model->attempts <=0){
                 $this->render('notAttempts', array(
@@ -193,7 +197,10 @@ class TestController extends Controller
                 $this->render('show', array(
                     'model' => $model
                 ));
-            } 
+            }*/
+            $this->render('show', array(
+                    'model' => $model
+                ));
         }
         
         /*

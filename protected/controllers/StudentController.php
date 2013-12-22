@@ -82,15 +82,18 @@ class StudentController extends Controller
     {
 
         $user = Yii::app()->user->id;
-
+       // echo $user;
+       // exit;
         $cPeriod    = CurPeriod::getCurrentPeriod($user);
+        print_r($cPeriod);
+        exit;
         //marks for normatives
         $normatives = Statistic::model()->with('exercise')->findAll('user_id = :user and cur_period_id = :cperiod', array(':user'=>$user, ':cperiod'=>$cPeriod->id));
         //marks for tests
         
         $aaaa       = Mark::getCourseWithTestMarks($cPeriod->id, $user);
         
-        //CVarDumper::dump($aaaa, 10, true);
+        CVarDumper::dump($aaaa, 10, true);
         //exit;
         $this->render('marks', array(
             //'user' => $user,
