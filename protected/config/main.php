@@ -25,7 +25,7 @@ return array(
 			'password'=>'12345',
                         'generatorPaths'=>array('bootstrap.gii'),
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
-			'ipFilters'=>array('217.149.179.66','::1'),
+			//'ipFilters'=>array('217.149.179.66','::1'),
 		),
 
 	),
@@ -37,6 +37,13 @@ return array(
 			'allowAutoLogin'=>true,
                         'class'         => 'WebUser',
 		),
+        'session' => array(
+            'class' => 'CDbHttpSession',
+            'autoStart' => false,
+            'connectionID' => 'db',
+            'sessionTableName' => 'ph_YiiSession',
+            'autoCreateSessionTable' => false    // for performance reasons
+        ),
         'bootstrap'=>array(
             'class'=>'ext.bootstrap.components.Bootstrap',
         ),

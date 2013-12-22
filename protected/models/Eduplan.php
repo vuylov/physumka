@@ -96,4 +96,6 @@ class Eduplan extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+       // public function 
 }

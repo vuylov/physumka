@@ -13,7 +13,7 @@
 </div>
 <div class="span9">
     <div class="well">
-        Поздравляем Вы прошли тест!!!!<br>
-        Набрав, <?php echo $user_score; ?>
+        Тест проден.<br>
+        Набрано баллов: <?php echo $user_score; ?>
     </div>
 </div>

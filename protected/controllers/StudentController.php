@@ -18,6 +18,10 @@ class StudentController extends Controller
         if(empty(Yii::app()->user->id))
             Yii::app()->user->id = 5;
         
+        //echo Yii::app()->user->id;
+        $user       = User::model()->findByPk(Yii::app()->user->id);
+        $element = CurPeriod::getCurrentPeriod($user->id);
+        /*
         $user       = User::model()->findByPk(Yii::app()->user->id);
         $eduplan    = Eduplan::model()->find('disease_id=?', array($user->disease_id));
         //get semestr
@@ -27,15 +31,21 @@ class StudentController extends Controller
         $module = new Module();
         $module_id     = $module->getCurrentModule();
         
-        /*
-        echo $module_id;
-        echo $semestr;
-        echo $eduplan->id;
-        exit;*/
+        $year = $user->date_admission;
+        if(!$year)
+            throw new CHttpException(404, "Ошибка в учебном плане. Не заполнен год поступления. Обратитесь к методисту кафедры");
+
+            
+        echo 'modul= '.$module_id;
+        echo 'semestr= '.$semestr;
+        echo 'eduplan= '.$eduplan->id;
+       // exit;
         
         // get id of structure education plan
         $element   = CurPeriod::model()->find('eduplan_id = :e AND semestr_id = :s AND module_id = :m', array(':e'=>$eduplan->id, ':s'=>$semestr, ':m'=>$module_id));
         
+        //CVarDumper::dump($element, 10, true);
+        */
         //Делаем костыль, если вдруг не заполнен УЧ-план
         if(empty($element))
         {
@@ -73,8 +83,15 @@ class StudentController extends Controller
 
         $user = Yii::app()->user->id;
 
-        $normatives = Statistic::model()->with('exercise')->findAll('user_id = :user', array(':user'=>$user));
-
+        $cPeriod    = CurPeriod::getCurrentPeriod($user);
+        //marks for normatives
+        $normatives = Statistic::model()->with('exercise')->findAll('user_id = :user and cur_period_id = :cperiod', array(':user'=>$user, ':cperiod'=>$cPeriod->id));
+        //marks for tests
+        
+        $aaaa       = Mark::getCourseWithTestMarks($cPeriod->id, $user);
+        
+        //CVarDumper::dump($aaaa, 10, true);
+        //exit;
         $this->render('marks', array(
             //'user' => $user,
             'normatives' => $normatives

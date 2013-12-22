@@ -110,4 +110,22 @@ class CurPeriod extends CActiveRecord
     {
         return $this->module->name.' | '.$this->semestr->name.' | '.$this->eduplan->name;
     }
+    
+       public static function getCurrentPeriod($userId)
+        {
+            $user       = User::model()->findByPk($userId);
+            $eduplan    = Eduplan::model()->find('disease_id=?', array($user->disease_id));
+            //get semestr
+            $sem    = new Semestr();
+            $semestr = $sem->getCurrentSemestr($user);
+            //get module
+            $module = new Module();
+            $module_id     = $module->getCurrentModule();
+
+            $year = $user->date_admission;
+            if(!$year)
+                throw new CHttpException(404, "Ошибка в учебном плане. Не заполнен год поступления. Обратитесь к методисту кафедры");
+            $element   = CurPeriod::model()->find('eduplan_id = :e AND semestr_id = :s AND module_id = :m', array(':e'=>$eduplan->id, ':s'=>$semestr, ':m'=>$module_id));
+            return $element;
+        }
 }

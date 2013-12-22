@@ -29,13 +29,45 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'date_registration'); ?>
-		<?php echo $form->textField($model,'date_registration', array('class'=>'span6')); ?>
+                <?php
+                    $this->widget('zii.widgets.jui.CJuiDatePicker',array(
+                    //'name'=>'User[date_registration]',
+                    'attribute'=>'date_registration',
+                    'model'=> $model,
+                    'language' => 'ru',
+                    // additional javascript options for the date picker plugin
+                    'options'=>array(
+                        'showAnim'=>'fold',
+                        'dateFormat'=>'yy-mm-dd',
+                        'changeYear'=> true,
+                    ),
+                    'htmlOptions'=>array(
+                        'style'=>'height:20px;',
+                        'class'=>'span6'
+                    ),
+                ));?>
 		<?php echo $form->error($model,'date_registration'); ?>
 	</div>
 
     <div class="row">
         <?php echo $form->labelEx($model,'date_admission'); ?>
-        <?php echo $form->textField($model,'date_admission', array('class'=>'span6')); ?>
+         <?php
+                    $this->widget('zii.widgets.jui.CJuiDatePicker',array(
+                    //'name'=>'User[date_admission]',
+                    'attribute'=>'date_admission',
+                    'model'=> $model,
+                    'language' => 'ru',
+                    // additional javascript options for the date picker plugin
+                    'options'=>array(
+                        'showAnim'=>'fold',
+                        'dateFormat'=>'yy',
+                        'changeYear'=> true,
+                    ),
+                    'htmlOptions'=>array(
+                        'style'=>'height:20px;',
+                        'class'=>'span6'
+                    ),
+                ));?>
         <?php echo $form->error($model,'date_admission'); ?>
     </div>
 

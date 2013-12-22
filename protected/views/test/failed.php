@@ -12,9 +12,9 @@
     </div>
 </div>
 <div class="span9">
-    <div class="well">
-        Вы не прошли тест<br>
-        Набрав, <?php echo $user_score; ?> из <?php echo $total_pass_score; ?> необходимых.<br>
+    <div class="well alert-error">
+        Тест не пройден<br>
+        Набрано <?php echo $user_score; ?> из <?php echo $total_pass_score; ?> необходимых баллов<br>
         <a href="<?php echo $this->createUrl('test/start', array('id'=>$id)); ?>">Повторить попытку?</a>
     </div>
 </div>

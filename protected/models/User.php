@@ -87,7 +87,7 @@ class User extends CActiveRecord
 			'numbook' => 'Номер зачетной книжки',
 			'password' => 'Пароль',
 			'date_registration' => 'Дата регистрации',
-            'date_admission'    => 'Дата поступления',
+                        'date_admission'    => 'Год поступления',
 			'group_id' => 'Группа',
 			'disease_id' => 'Тип болезни',
 			'role_id' => 'Роль',

@@ -16,8 +16,22 @@
 	<?php echo $form->errorSummary($model); ?>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'year'); ?>
-		<?php echo $form->textField($model,'year',array('size'=>4,'maxlength'=>4)); ?>
+            <?php echo $form->labelEx($model,'year'); ?>
+            <?php
+                $this->widget('zii.widgets.jui.CJuiDatePicker',array(
+                'attribute'=>'year',
+                'model'=> $model,
+                'language' => 'ru',
+                // additional javascript options for the date picker plugin
+                'options'=>array(
+                    'showAnim'=>'fold',
+                    'dateFormat'=>'yy',
+                    'changeYear'=> true,
+                ),
+                'htmlOptions'=>array(
+                    'style'=>'height:20px;'
+                ),
+            ));?>
 		<?php echo $form->error($model,'year'); ?>
 	</div>
 

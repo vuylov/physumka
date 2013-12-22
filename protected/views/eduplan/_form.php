@@ -36,7 +36,23 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'year_begin'); ?>
-		<?php echo $form->textField($model,'year_begin', array('class'=>'span7')); ?>
+                <?php
+                    $this->widget('zii.widgets.jui.CJuiDatePicker',array(
+                    //'name'=>'date_created',
+                    'model'=> $model,
+                    'attribute' => 'year_begin',
+                    'language' => 'ru',
+                    // additional javascript options for the date picker plugin
+                    'options'=>array(
+                        'showAnim'=>'fold',
+                        'dateFormat'=>'yy-mm-dd',
+                        'changeYear'=> true,
+                    ),
+                    'htmlOptions'=>array(
+                        'style'=>'height:20px;',
+                        'class'=>'span7'
+                    ),
+                ));?>
 		<?php echo $form->error($model,'year_begin'); ?>
 	</div>
 

@@ -178,11 +178,22 @@ class TestController extends Controller
             $this->layout = '//layouts/course_layout';
             
             $model = Test::model()->findByPk($this->castToInt($id));
+            //calculate passed attempts
+            $user_id = Yii::app()->user->id;
+            $cPeriod = CurPeriod::getCurrentPeriod($user_id);
+            $qTest  = Attempt::model()->countByAttributes(array('test_id'=>$id, 'user_id'=>$user_id, 'cur_period_id'=>$cPeriod->id));
+            //CVarDumper::dump($qTest, 10, true);
+            $model->attempts -= $qTest;
             
-            $this->render('show', array(
-                'model' => $model
-            ));
-            
+            if($model->attempts <=0){
+                $this->render('notAttempts', array(
+                    'model' => $model
+                ));
+            }else{
+                $this->render('show', array(
+                    'model' => $model
+                ));
+            } 
         }
         
         /*
@@ -215,30 +226,15 @@ class TestController extends Controller
                     $testModel = Test::model()->findByPk($id);
                     $countUserValidAnswers = count($arrUserAnswers) - count($arrFailedAnswers);
                     
-                    //TODO refactor THIS
-                    $user       = User::model()->findByPk(Yii::app()->user->id);
-                    $eduplan    = Eduplan::model()->find('disease_id=?', array($user->disease_id));
-                    $sem    = new Semestr();
-                    $semestr = $sem->getCurrentSemestr($user);
-                    $module = new Module();
-                    $module_id     = $module->getCurrentModule();
-                    
-                    /*
-                     * test fixtures. Delete this after show
-                     */
-                    $eduplan->id = 1;
-                    $semestr = 1;
-                    $module_id = 4;
-                    
-                    $curPeriod   = CurPeriod::model()->find('eduplan_id = :e AND semestr_id = :s AND module_id = :m', array(':e'=>$eduplan->id, ':s'=>$semestr, ':m'=>$module_id));
-                    
+                    $cPeriod    = CurPeriod::getCurrentPeriod(Yii::app()->user->id);
                     //Fill attempt of student
                     $attempt                = new Attempt();
                     $attempt->test_id       = $id;
                     $attempt->user_id       = Yii::app()->user->id;
-                    $attempt->cur_period_id = $curPeriod->id;
+                    $attempt->cur_period_id = $cPeriod->id;
                     $attempt->result        = $countUserValidAnswers;
                     $attempt->date_passed   = date('Y-m-d H:i:s');
+                    
                     if(!$attempt->save())
                         echo 'Попытка не сохранена';
 
@@ -257,7 +253,7 @@ class TestController extends Controller
                     else //failed test
                     {
                         $this->render('failed', array(
-							'id'				=> $id,
+                            'id'		=> $id,
                             'total_pass_score'  => $testModel->ball_to_pass,
                             'user_score'        => $countUserValidAnswers
                         ));
